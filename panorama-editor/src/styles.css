@@ -1,0 +1,32 @@
+* { box-sizing: border-box; }
+html, body, #app { height: 100%; margin: 0; }
+body {
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #0a0f16; color: #e6edf3; font-size: 14px;
+}
+.app-shell { display: flex; flex-direction: column; height: 100%; }
+.topbar {
+  display: flex; align-items: center; gap: 16px; padding: 8px 16px;
+  background: #101826; border-bottom: 1px solid #223044; flex: none;
+}
+.brand { font-weight: 700; font-size: 15px; white-space: nowrap; }
+.tools { display: flex; gap: 6px; }
+.tool-btn {
+  background: #17233a; border: 1px solid #2a3a52; color: #c9d4e0;
+  border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 12px;
+}
+.tool-btn.on { background: #1f3b6b; border-color: #2f81f7; color: #fff; }
+.top-actions { margin-left: auto; display: flex; gap: 8px; }
+.btn {
+  background: #17233a; border: 1px solid #2a3a52; color: #c9d4e0;
+  border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 12px;
+  display: inline-flex; align-items: center;
+}
+.btn:hover { border-color: #4a6fa5; color: #fff; }
+.btn.primary { background: #2f81f7; border-color: #2f81f7; color: #fff; }
+.file-btn { position: relative; }
+.layout { flex: 1; display: grid; grid-template-columns: 280px 1fr 380px; gap: 10px; padding: 10px; min-height: 0; }
+.left-col, .right-col { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; min-height: 0; }
+.center-col { display: flex; min-height: 0; border: 1px solid #223044; border-radius: 10px; overflow: hidden; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #2a3a52; border-radius: 4px; }
