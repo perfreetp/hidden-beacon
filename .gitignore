@@ -16,3 +16,9 @@ node_modules/
 __pycache__/
 .venv/
 venv/
+
+# 构建产物与测试输出
+dist/
+test-results/
+playwright-report/
+.scratch/

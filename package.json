@@ -1,0 +1,28 @@
+{
+  "name": "forest-ramble-pano-editor",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "全景漫游编辑器 · 自然探索馆导览",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "samples": "node scripts/make-samples.mjs"
+  },
+  "dependencies": {
+    "d3-geo": "^3.1.2",
+    "solid-js": "^1.9.19"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/d3-geo": "^3.1.1",
+    "@types/node": "^24.19.2",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.8",
+    "vite-plugin-solid": "^2.11.17",
+    "vitest": "^5.1.1"
+  }
+}
