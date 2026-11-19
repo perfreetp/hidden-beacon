@@ -1,0 +1,16 @@
+Bundled fonts
+=============
+
+zcool-kuaile.ttf / zcool-kuaile.woff2
+  站酷快乐体 (ZCOOL KuaiLe)
+  Copyright (c) 2016, ZCOOL
+  SIL Open Font License, Version 1.1 — https://scripts.sil.org/OFL
+
+lxgw-wenkai.ttf / lxgw-wenkai-lite.woff2
+  霞鹜文楷 Lite (LXGW WenKai Lite), derived from Klee One
+  Copyright (c) 2021, LXGW
+  SIL Open Font License, Version 1.1 — https://scripts.sil.org/OFL
+
+Both have been subset to the GB2312 level-1 character set plus ASCII,
+punctuation and the symbol set used by the card editor. No glyph outlines were
+modified. Rebuild with `python tools/build-fonts.py --src <dir>`.
