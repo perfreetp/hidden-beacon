@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><title>RUNNING</title></head>
+<body>
+<canvas id="c"></canvas>
+<pre id="out">RUNNING</pre>
+<script type="module">
+import { Engine } from '/src/lib/gl/engine.js';
+
+const out = [];
+const ok = (name, cond) => out.push((cond ? 'PASS' : 'FAIL') + ' ' + name);
+
+const FX = (order) => ({
+  order,
+  params: {
+    bloom: { enabled: true, intensity: 1.4, radius: 2.0 },
+    dof: { enabled: true, focusX: 0.5, focusY: 0.5, range: 0.4, strength: 1.0 },
+    tonemap: { enabled: true, mode: 'night' },
+    outline: { enabled: true, width: 3, color: '#ffffff' }
+  }
+});
+
+try {
+  const canvas = document.getElementById('c');
+  const e = new Engine(canvas);
+  e.resize(800, 600, 1);
+  e.setEffects(FX(['bloom', 'dof', 'tonemap', 'outline']));
+
+  // 画一笔 + 三个图章
+  e.autoRender = false;
+  e.beginStroke('brush', '#ffd76a', 60);
+  for (let i = 0; i < 20; i++) e.strokeTo(200 + i * 20, 300 + Math.sin(i / 3) * 50);
+  e.endStroke();
+  e.beginStroke('star', '#7ef0ff', 50); e.strokeTo(800, 400); e.endStroke();
+  e.beginStroke('fish', '#ff8fb2', 50); e.strokeTo(600, 700); e.endStroke();
+  e.beginStroke('house', '#9dff8a', 50); e.strokeTo(1100, 800); e.endStroke();
+  e.autoRender = true;
+
+  ok('layers-created', e.layers.length === 4);
+  ok('strokes-recorded', e.strokes.length === 4);
+
+  e.render();
+  const gl = e.gl;
+  ok('gl-no-error', gl.getError() === 0);
+
+  // 默认帧缓冲里应该能看到亮像素（笔画 + 泛光）
+  const w = 800, h = 600;
+  const buf = new Uint8Array(w * h * 4);
+  gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+  let bright = 0;
+  for (let i = 0; i < buf.length; i += 4) {
+    if (buf[i] + buf[i + 1] + buf[i + 2] > 200) bright++;
+  }
+  ok('stroke-visible', bright > 500);
+
+  // 换顺序立即重算，不应出错
+  e.setEffects(FX(['outline', 'tonemap', 'dof', 'bloom']));
+  e.render();
+  ok('reorder-no-error', gl.getError() === 0);
+
+  // 分屏 + 高对比
+  e.setSplit(400);
+  e.setHighContrast(true);
+  e.render();
+  ok('split-hc-no-error', gl.getError() === 0);
+  e.setSplit(-1);
+  e.setHighContrast(false);
+
+  // 视图变换
+  e.setView({ scale: 1.5, x: -100, y: -50 });
+  e.render();
+  ok('view-no-error', gl.getError() === 0);
+  e.setView({ scale: 1, x: 0, y: 0 });
+
+  // 导出高清图
+  const cv = e.exportPNG(2);
+  ok('export-size', cv.width === 3200 && cv.height === 2400);
+  const ctx = cv.getContext('2d');
+  const region = ctx.getImageData(300, 500, 500, 500).data;
+  let ebright = 0;
+  for (let i = 0; i < region.length; i += 4) {
+    if (region[i] + region[i + 1] + region[i + 2] > 200) ebright++;
+  }
+  ok('export-nonempty', ebright > 500);
+
+  // 序列化 → 重放
+  const s = e.serialize();
+  e.replay(s);
+  ok('replay-restores', e.layers.length === 4 && e.strokes.length === 4);
+  ok('replay-no-error', gl.getError() === 0);
+
+  // 撤销 / 隐藏 / 删除
+  e.undoLast();
+  ok('undo', e.layers.length === 3 && e.strokes.length === 3);
+  e.setLayerVisible(e.layers[0].id, false);
+  ok('hide-layer', e.layers[0].visible === false);
+  e.removeLayer(e.layers[1].id);
+  ok('remove-layer', e.layers.length === 2);
+  e.clearAll();
+  ok('clear-all', e.layers.length === 0 && e.strokes.length === 0);
+  ok('final-no-error', gl.getError() === 0);
+} catch (err) {
+  out.push('EXCEPTION ' + (err && err.message));
+}
+
+document.getElementById('out').textContent = out.join('\n');
+document.title = out.every((l) => l.startsWith('PASS')) ? 'SMOKE-OK' : 'SMOKE-FAIL';
+</script>
+</body>
+</html>
