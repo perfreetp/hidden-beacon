@@ -1,0 +1,172 @@
+/* ---------- 设计变量：暗色魔法夜空 ---------- */
+:root {
+  --bg-deep: #070a18;
+  --bg-panel: rgba(18, 24, 48, 0.82);
+  --bg-panel-solid: #121830;
+  --bg-card: rgba(34, 44, 84, 0.72);
+  --bg-card-active: rgba(66, 88, 160, 0.85);
+  --line: rgba(148, 178, 255, 0.22);
+  --line-strong: rgba(168, 200, 255, 0.55);
+  --fg: #eef3ff;
+  --fg-dim: #a9b6d8;
+  --accent: #ffd75e;
+  --accent-2: #6aa8ff;
+  --accent-3: #ff7a9c;
+  --good: #7cf2a8;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --shadow-glow: 0 0 24px rgba(106, 168, 255, 0.25);
+  --font: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui,
+    -apple-system, sans-serif;
+  color-scheme: dark;
+}
+
+/* 高对比模式：更亮的描边、更纯的底、更强的色差 */
+:root.high-contrast {
+  --bg-deep: #000000;
+  --bg-panel: rgba(10, 10, 14, 0.94);
+  --bg-panel-solid: #0a0a0e;
+  --bg-card: rgba(38, 38, 48, 0.95);
+  --bg-card-active: rgba(90, 110, 220, 0.95);
+  --line: rgba(255, 255, 255, 0.65);
+  --line-strong: #ffffff;
+  --fg: #ffffff;
+  --fg-dim: #f2f2f2;
+  --accent: #ffe600;
+  --accent-2: #35c6ff;
+  --accent-3: #ff4f87;
+  --shadow-glow: 0 0 32px rgba(255, 230, 0, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-deep);
+  color: var(--fg);
+  font-family: var(--font);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+button {
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--fg);
+  background: var(--bg-card);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  min-height: 42px;
+  cursor: pointer;
+  transition: transform 0.08s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+button:hover {
+  border-color: var(--line-strong);
+  background: var(--bg-card-active);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+button.primary {
+  background: linear-gradient(135deg, #ffd75e, #ff9e4f);
+  color: #2a1c00;
+  font-weight: 700;
+  border-color: transparent;
+}
+
+button.ghost {
+  background: transparent;
+}
+
+button.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(255, 215, 94, 0.35), var(--shadow-glow);
+  background: var(--bg-card-active);
+}
+
+.icon-btn {
+  padding: 8px;
+  min-width: 42px;
+  font-size: 17px;
+  line-height: 1;
+}
+
+input[type='range'] {
+  width: 100%;
+  accent-color: var(--accent);
+  height: 30px;
+  cursor: pointer;
+}
+
+input[type='color'] {
+  width: 52px;
+  height: 40px;
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line);
+  background: var(--bg-card);
+  cursor: pointer;
+}
+
+select {
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--fg);
+  background: var(--bg-card);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  min-height: 40px;
+}
+
+.panel {
+  background: var(--bg-panel);
+  backdrop-filter: blur(14px);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glow);
+}
+
+.panel-title {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--fg-dim);
+  margin: 0 0 10px;
+  font-weight: 700;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 小屏：右栏改成底部抽屉式 */
+@media (max-width: 860px) {
+  button {
+    min-height: 48px;
+  }
+}

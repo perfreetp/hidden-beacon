@@ -1,0 +1,27 @@
+{
+  "name": "magic-light-board",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "魔法光影画板 — 学龄前儿童亲子光影创作 (Svelte + WebGL2)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "test:smoke": "vite --port 5199 --strictPort & sleep 3 && node tests/smoke-test.mjs",
+    "test:detail": "node tests/smoke-detail.mjs",
+    "test:export": "node tests/smoke-export.mjs"
+  },
+  "dependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "svelte": "^5.59.0",
+    "vite": "^8.3.8"
+  },
+  "devDependencies": {
+    "@tsconfig/svelte": "^5.0.9",
+    "playwright-core": "^1.65.1",
+    "svelte-check": "^4.7.8",
+    "typescript": "~5.9"
+  }
+}
